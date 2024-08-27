@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
 
-function PersonalDown() {
-    const [closed, setOpen] = useState(false);
-    const [name, setName] = useState('Dean Dwiggins12');
+function PersonalDown({ name, setName, jobTitle, setJobTitle, email, setEmail }) {
+    const [closed, setOpen] = useState(false); //this does not have to be shared in larger parent component 
 
 
+    //how do I now share this state into the actual resume based section 
 
+    //I want this to be an output somewhere else
     return (
         <div>
             <h1>Personal Details</h1>
@@ -14,7 +15,11 @@ function PersonalDown() {
                 {closed ? 'Hide Details' : 'Show More!'}
             </button>
 
-            {closed && <PersonalDownExtra name={name} setName={setName} />}
+            {closed && <PersonalDownExtra name={name} setName={setName}
+                jobTitle={jobTitle} setJobTitle={setJobTitle}
+                email={email} setEmail={setEmail}
+
+            />}
 
         </div>
     );
@@ -24,7 +29,7 @@ function PersonalDown() {
 
 }
 
-function PersonalDownExtra({ name, setName }) {
+function PersonalDownExtra({ name, setName, jobTitle, setJobTitle, email, setEmail }) {
 
 
 
@@ -32,6 +37,13 @@ function PersonalDownExtra({ name, setName }) {
         setName(e.target.value);
     }
 
+    function handleJobChange(e) {
+        setJobTitle(e.target.value)
+    }
+
+    function handleEmailChange(e) {
+        setEmail(e.target.value)
+    }
 
     return (
         <>
@@ -39,11 +51,9 @@ function PersonalDownExtra({ name, setName }) {
             <p>Full Name:</p>
             <input className="fullname" type="text " value={name} onChange={handleNameChange} />
             <p>Job Title:</p>
-            <input className="jobtitle" type="text" />
-            <p>Telephone:</p>
-            <input className="telephone" type="text" />
+            <input className="jobtitle" type="text" value={jobTitle} onChange={handleJobChange} />
             <p>Email:</p>
-            <input type="text" className="email" />
+            <input type="text" className="email" value={email} onChange={handleEmailChange} />
 
 
 
@@ -51,6 +61,20 @@ function PersonalDownExtra({ name, setName }) {
     )
 }
 
+function PersonalDownResume({ name, jobTitle }) {
 
 
-export { PersonalDown, PersonalDownExtra }
+    return (
+        <>
+            <div>
+                <h1>{name}</h1>
+                <h2>{jobTitle}</h2>
+            </div>
+
+
+        </>
+    )
+}
+
+
+export { PersonalDown, PersonalDownExtra, PersonalDownResume }
